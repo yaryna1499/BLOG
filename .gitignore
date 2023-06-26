@@ -5,9 +5,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-./docker/db
 docker/db
-
+./docker/db
 
 # C extensions
 *.so
