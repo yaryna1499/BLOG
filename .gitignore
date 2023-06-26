@@ -1,12 +1,10 @@
-
+docker/db
+./docker/db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
-docker/db
-./docker/db
 
 # C extensions
 *.so
