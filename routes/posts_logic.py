@@ -14,7 +14,7 @@ def create_post():
     
 
 
-@app.route("/edit_post/<int:post_id>", methods=['GET', 'POST'])
+@app.route("/post/<int:post_id>/edit", methods=['GET', 'POST'])
 def edit_post(post_id):
     # post = db.session.query(Post).filter_by(post_id=post_id)
     post = Post.query.get_or_404(post_id)
