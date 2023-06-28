@@ -2,7 +2,7 @@ from app import api, db
 from models import Post, MenuItem, User
 from flask import request, Response
 from flask_restful import Resource
-
+from sqlalchemy import desc
 
 
 class UserResource(Resource):
@@ -14,7 +14,7 @@ class UserResource(Resource):
 
 class ArticleResource(Resource):
     def get(self):
-        articles = Post.query.all()
+        articles = Post.query.order_by(desc(Post.time_edited)).all()
         articles_list = []
         for article in articles:
             articles_list.append(article.serialize)
@@ -22,7 +22,7 @@ class ArticleResource(Resource):
 
     def post(self):
         data = request.json
-        article = Post(title=data.get("post_header"), body=data.get("post_text"))
+        article = Post(post_header=data.get("post_header"), post_text=data.get("post_text"))
         db.session.add(article)
         db.session.commit()
         return article.serialize
@@ -36,8 +36,8 @@ class ArticleSingleResource(Resource):
     def put(self, post_id):
         data = request.json
         article = Post.query.get(post_id)
-        article.title = data.get("post_header")
-        article.body = data.get("post_text")
+        article.post_header = data.get("post_header")
+        article.post_text = data.get("post_text")
         db.session.add(article)
         db.session.commit()
         return article.serialize

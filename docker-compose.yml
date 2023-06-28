@@ -11,7 +11,7 @@ services:
     ports:
       - 3310:3306
     volumes:
-      - ./docker/db:/var/lib/mysql
+      - ./docker/db:/var/lib/mysqld
     networks:
       - app
 
