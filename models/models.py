@@ -63,6 +63,7 @@ class Post(db.Model):
     
 
 class MenuItem(db.Model):
+
     __tablename__="menu_items"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
@@ -75,6 +76,19 @@ class MenuItem(db.Model):
             "name": self.name,
             "link": self.link
         }
+    
+
+    @classmethod
+    def create_items(cls):
+        if  not db.session.query(MenuItem).filter(MenuItem.name == "HOME").first():
+            home = MenuItem(
+                name="HOME",
+                link="/"
+            )
+            db.session.add(home)
+            db.session.commit()
+
+MenuItem.create_items()
     
 
 

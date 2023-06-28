@@ -1,7 +1,7 @@
 import hashlib
 from app import app, db
 from flask import render_template, request, redirect, session
-from models import User, Post
+from models import User, MenuItem
 
 
 

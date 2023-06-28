@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect, session
-from models import User, Post
-
+from models import Post
+from sqlalchemy import desc
 
 
 @app.route("/create_post")
@@ -54,7 +54,7 @@ def search():
     if query:
         results = Post.query.filter(
             Post.post_header.ilike(f'%{query}%') | Post.post_text.ilike(f'%{query}%')
-        ).all()
+        ).order_by(desc(Post.time_edited)).all()
     results = [post.serialize for post in results]
     return render_template('search_results.html', results=results)
 
