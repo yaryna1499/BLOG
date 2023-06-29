@@ -4,7 +4,6 @@ from flask import render_template, request, redirect, session
 from models import User, MenuItem
 
 
-
 @app.route("/")
 def hello_world():
     return render_template("index.html")
@@ -40,7 +39,10 @@ def authorize():
     data = request.form
     user = User.query.filter(User.email == data.get("email")).first()
     if user:
-        if hashlib.sha256(data.get("password").encode("utf-8")).hexdigest() == user.password:
+        if (
+            hashlib.sha256(data.get("password").encode("utf-8")).hexdigest()
+            == user.password
+        ):
             session["user"] = user.serialize
             ## changes logg_status in the database:
             user.sign_in(session["user"]["id"])
@@ -53,5 +55,3 @@ def logout():
     user.log_out(session["user"]["id"])
     del session["user"]
     return redirect("/")
-
-

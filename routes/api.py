@@ -7,9 +7,8 @@ from sqlalchemy import desc
 
 class UserResource(Resource):
     def get(self, user_id):
-        user =  User.query.filter(User.id == user_id).first()
+        user = User.query.filter(User.id == user_id).first()
         return user.serialize
-    
 
 
 class ArticleResource(Resource):
@@ -22,7 +21,9 @@ class ArticleResource(Resource):
 
     def post(self):
         data = request.json
-        article = Post(post_header=data.get("post_header"), post_text=data.get("post_text"))
+        article = Post(
+            post_header=data.get("post_header"), post_text=data.get("post_text")
+        )
         db.session.add(article)
         db.session.commit()
         return article.serialize

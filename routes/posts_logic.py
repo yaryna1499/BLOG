@@ -11,33 +11,28 @@ def create_post():
             return render_template("post.html")
     except KeyError:
         return "Please, sign in!"  ##to show this message into template
-    
 
 
-@app.route("/post/<int:post_id>/edit", methods=['GET', 'POST'])
+@app.route("/post/<int:post_id>/edit", methods=["GET", "POST"])
 def edit_post(post_id):
     # post = db.session.query(Post).filter_by(post_id=post_id)
     post = Post.query.get_or_404(post_id)
-    if request.method == 'POST':
-
+    if request.method == "POST":
         post.edit_post(
-        new_header = request.form['post_header'],
-        new_text = request.form['post_text']
+            new_header=request.form["post_header"], new_text=request.form["post_text"]
         )
         return redirect("/")
 
     return render_template("edit_post.html", post=post)
-    
 
 
-
-@app.route("/save_post", methods=['POST'])
+@app.route("/save_post", methods=["POST"])
 def save_post():
     data = request.form
     post = Post(
-        user_id = session["user"]['id'],
-        post_header = data.get("post_header"),
-        post_text = data.get("post_text")
+        user_id=session["user"]["id"],
+        post_header=data.get("post_header"),
+        post_text=data.get("post_text"),
     )
     db.session.add(post)
     db.session.commit()
@@ -45,18 +40,22 @@ def save_post():
     return redirect("/")
 
 
-
-@app.route('/search')
+@app.route("/search")
 def search():
-    query = request.args.get('query')
+    query = request.args.get("query")
     results = []
 
     if query:
-        results = Post.query.filter(
-            Post.post_header.ilike(f'%{query}%') | Post.post_text.ilike(f'%{query}%')
-        ).order_by(desc(Post.time_edited)).all()
+        results = (
+            Post.query.filter(
+                Post.post_header.ilike(f"%{query}%")
+                | Post.post_text.ilike(f"%{query}%")
+            )
+            .order_by(desc(Post.time_edited))
+            .all()
+        )
     results = [post.serialize for post in results]
-    return render_template('search_results.html', results=results)
+    return render_template("search_results.html", results=results)
 
 
 @app.route("/post/<int:id>/delete")
