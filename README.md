@@ -1,5 +1,6 @@
 # BLOG
-Project description
+## Project description
+<br>
 ✅ Simple Flask RESTful Blog Application: Developed a straightforward Flask RESTful application showcasing my skills.
 
 ✅ Authorization: Implemented a secure authorization system for user authentication and authorization.
